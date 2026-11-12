@@ -1,40 +1,381 @@
-:root{--bg:#fff;--fg:#111;--btn:#0b3d91;--btn-fg:#fff;--off-bg:#e6e6e6;--off-fg:#333;--ring:#c45500;color-scheme:light dark}
-@media (prefers-color-scheme:dark){:root{--bg:#101010;--fg:#f2f2f2;--btn:#a9c9ff;--btn-fg:#000;--off-bg:#2a2a2a;--off-fg:#d8d8d8;--ring:#ffb454}}
-body{margin:0;background:var(--bg);color:var(--fg);font:1.125rem/1.6 system-ui,Arial,sans-serif}
-main{max-width:40rem;margin:0 auto;padding:1.5rem 1rem 3rem}
-h1{font-size:1.75rem;line-height:1.2}
-h2{font-size:1.25rem;margin-top:2rem}
-label{display:block;font-weight:600;margin-bottom:.25rem}
-.help-text{display:block;font-size:.9rem;margin-top:.35rem}
-input[type=checkbox]{width:1.5rem;height:1.5rem;vertical-align:middle}
-input[type=checkbox]+label{display:inline;margin-left:.5rem}
-select{font:inherit;width:100%;padding:.5rem;background:var(--bg);color:var(--fg);border:2px solid var(--fg);border-radius:.3rem}
-button{font:inherit;font-weight:600;padding:.75rem 1.25rem;margin:0 .5rem .5rem 0;border:2px solid var(--btn);background:var(--btn);color:var(--btn-fg);border-radius:.4rem;cursor:pointer}
-button.btn-large{font-size:1.35rem;padding:1.1rem 2rem;display:inline-block;margin-bottom:.75rem}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-button[aria-disabled=true]{background:var(--off-bg);color:var(--off-fg);border:2px dashed var(--off-fg);cursor:not-allowed}
-:focus-visible{outline:.25rem solid var(--ring);outline-offset:.2rem}
-#status{border:2px solid var(--fg);border-radius:.4rem;padding:1rem;min-height:4rem}
-#details section{margin:1rem 0;padding:.25rem 1rem;border-left:.3rem solid var(--btn);border-bottom:1px solid var(--off-fg)}
-#details h3{font-size:1.1rem;margin:.2rem 0 .4rem}
-#details p{margin:.25rem 0 .75rem}
+```css
+:root {
+  color-scheme: light dark;
 
-/* Accessible 88-key learning panel */
-.piano-keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(4.4rem,1fr));gap:.45rem;margin:1rem 0}
-.piano-key{min-height:4.2rem;margin:0;padding:.45rem .25rem;background:#fff;color:#111;border:2px solid #555;border-radius:.25rem;font-size:.95rem}
-.piano-key.black-key{background:#252525;color:#fff;border-color:#000}
-.piano-key[aria-pressed=true]{outline:.3rem solid var(--ring);outline-offset:2px}
-.piano-key:focus-visible{outline:.3rem solid var(--ring);outline-offset:3px}
-@media(prefers-reduced-motion:no-preference){.piano-key{transition:transform .08s ease}}
+  --bg: #ffffff;
+  --fg: #111111;
+  --btn: #0b3d91;
+  --btn-fg: #ffffff;
+  --off-bg: #e6e6e6;
+  --off-fg: #333333;
+  --ring: #c45500;
+  --border: #555555;
+  --key-white: #ffffff;
+  --key-black: #202020;
+  --key-black-fg: #ffffff;
+  --target-bg: #fff2c2;
+  --target-border: #e0a000;
 
-/* Realistic, horizontally scrollable 88-key piano */
-.piano-scroll{overflow-x:auto;overflow-y:hidden;padding:.75rem .35rem 1rem;border:1px solid var(--fg);border-radius:.5rem;overscroll-behavior-x:contain}
-.piano-keys{--white-key-width:2.75rem;--white-key-height:11rem;--black-key-width:1.75rem;position:relative;display:block;height:var(--white-key-height);width:calc(var(--white-count,52) * var(--white-key-width));min-width:100%;margin:0;background:var(--off-bg);border-radius:.25rem}
-.piano-key{position:absolute;top:0;margin:0;padding:.25rem .1rem;display:flex;align-items:flex-end;justify-content:center;min-width:0;border-radius:0 0 .3rem .3rem;font-size:.72rem;line-height:1.1;white-space:nowrap}
-.piano-key.white-key{left:calc(var(--white-index) * var(--white-key-width));width:var(--white-key-width);height:var(--white-key-height);z-index:1;background:#fff;color:#111;border:1px solid #555;border-top:0}
-.piano-key.black-key{left:calc(var(--white-index) * var(--white-key-width) - var(--black-key-width)/2);width:var(--black-key-width);height:7.1rem;z-index:2;background:#202020;color:#fff;border:1px solid #000;border-top:0;box-shadow:0 .15rem .2rem #0008}
-.piano-key[aria-pressed=true]{outline:.22rem solid var(--ring);outline-offset:-.22rem;box-shadow:inset 0 0 0 .15rem var(--ring)}
-.piano-key.black-key[aria-pressed=true]{outline-offset:-.18rem}
+  --content-width: 40rem;
+  --white-key-width: 2.75rem;
+  --white-key-height: 11rem;
+  --black-key-width: 1.75rem;
+  --black-key-height: 7.1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101010;
+    --fg: #f2f2f2;
+    --btn: #a9c9ff;
+    --btn-fg: #000000;
+    --off-bg: #2a2a2a;
+    --off-fg: #d8d8d8;
+    --ring: #ffb454;
+    --border: #aaaaaa;
+    --key-white: #f5f5f5;
+    --key-black: #202020;
+    --key-black-fg: #ffffff;
+    --target-bg: #51431c;
+    --target-border: #ffd166;
+  }
+}
+
+/* Base layout */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 1.125rem / 1.6 system-ui, Arial, sans-serif;
+}
+
+main {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 5vw, 1.9rem);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+h2 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+
+h3 {
+  line-height: 1.4;
+}
+
+p {
+  overflow-wrap: anywhere;
+}
+
+/* Forms */
+
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.help-text {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input[type="checkbox"] {
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: middle;
+  accent-color: var(--btn);
+}
+
+input[type="checkbox"] + label {
+  display: inline;
+  margin-left: 0.5rem;
+}
+
+select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem;
+  color: var(--fg);
+  background: var(--bg);
+  border: 2px solid var(--fg);
+  border-radius: 0.3rem;
+}
+
+/* Buttons */
+
+button {
+  margin: 0 0.5rem 0.5rem 0;
+  padding: 0.75rem 1.25rem;
+  color: var(--btn-fg);
+  background: var(--btn);
+  border: 2px solid var(--btn);
+  border-radius: 0.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button.btn-large {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+}
+
+button:disabled,
+button[aria-disabled="true"] {
+  color: var(--off-fg);
+  background: var(--off-bg);
+  border: 2px dashed var(--off-fg);
+  cursor: not-allowed;
+}
+
+button:disabled {
+  opacity: 0.8;
+}
+
+/* Keyboard accessibility */
+
+:focus-visible {
+  outline: 0.25rem solid var(--ring);
+  outline-offset: 0.2rem;
+}
+
+.piano-key:focus-visible {
+  z-index: 3;
+  outline: 0.25rem solid var(--ring);
+  outline-offset: -0.25rem;
+}
+
+/* Screen-reader-only content */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Status panel */
+
+#status {
+  min-height: 4rem;
+  padding: 1rem;
+  border: 2px solid var(--fg);
+  border-radius: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+/* Learning details */
+
+#details section {
+  margin: 1rem 0;
+  padding: 0.25rem 1rem;
+  border-left: 0.3rem solid var(--btn);
+  border-bottom: 1px solid var(--off-fg);
+}
+
+#details h3 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.1rem;
+}
+
+#details p {
+  margin: 0.25rem 0 0.75rem;
+}
+
+/* Piano scrolling container */
+
+.piano-scroll {
+  max-width: 100%;
+  padding: 0.75rem 0.35rem 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid var(--fg);
+  border-radius: 0.5rem;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+/* Realistic 88-key piano */
+
+.piano-keys {
+  position: relative;
+  display: block;
+  width: calc(var(--white-count, 52) * var(--white-key-width));
+  min-width: 100%;
+  height: var(--white-key-height);
+  margin: 0;
+  background: var(--off-bg);
+  border-radius: 0.25rem;
+}
+
+.piano-key {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 0;
+  margin: 0;
+  padding: 0.25rem 0.1rem;
+  border-radius: 0 0 0.3rem 0.3rem;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.piano-key.white-key {
+  left: calc(var(--white-index) * var(--white-key-width));
+  z-index: 1;
+  width: var(--white-key-width);
+  height: var(--white-key-height);
+  color: #111111;
+  background: var(--key-white);
+  border: 1px solid var(--border);
+  border-top: 0;
+}
+
+.piano-key.black-key {
+  left: calc(
+    var(--white-index) * var(--white-key-width) -
+    var(--black-key-width) / 2
+  );
+  z-index: 2;
+  width: var(--black-key-width);
+  height: var(--black-key-height);
+  color: var(--key-black-fg);
+  background: var(--key-black);
+  border: 1px solid #000000;
+  border-top: 0;
+  box-shadow: 0 0.15rem 0.2rem #0008;
+}
+
+.piano-key[aria-pressed="true"] {
+  outline: 0.22rem solid var(--ring);
+  outline-offset: -0.22rem;
+  box-shadow: inset 0 0 0 0.15rem var(--ring);
+}
+
+.piano-key.black-key[aria-pressed="true"] {
+  outline-offset: -0.18rem;
+}
+
+.piano-key.octave-start {
+  border-left: 3px solid #176b38;
+}
+
+/* Target octave highlighting */
+
+.piano-key.white-key.target-octave {
+  background: var(--target-bg);
+}
+
+.piano-key.black-key.target-octave {
+  border-color: var(--target-border);
+  box-shadow: inset 0 0 0 2px var(--target-border);
+}
+
+/* Motion preferences */
+
+@media (prefers-reduced-motion: no-preference) {
+  .piano-key {
+    transition: transform 0.08s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Smaller screens */
+
+@media (max-width: 600px) {
+  :root {
+    --white-key-width: 2.35rem;
+    --white-key-height: 9.5rem;
+    --black-key-width: 1.5rem;
+    --black-key-height: 6.1rem;
+  }
+
+  main {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .piano-key {
+    font-size: 0.65rem;
+  }
+
+  button.btn-large {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* High-contrast accessibility preferences */
+
+@media (forced-colors: active) {
+  button,
+  select,
+  #status,
+  .piano-scroll {
+    border: 2px solid ButtonText;
+  }
+
+  .piano-key {
+    forced-color-adjust: auto;
+  }
+
+  .piano-key[aria-pressed="true"] {
+    outline: 3px solid Highlight;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight;
+  }
+}
+```
 .piano-key:focus-visible{z-index:3;outline:.25rem solid var(--ring);outline-offset:-.25rem}
 .piano-key.octave-start{border-left:3px solid #176b38}
 @media(max-width:600px){.piano-keys{--white-key-width:2.35rem;--white-key-height:9.5rem;--black-key-width:1.5rem}.piano-key.black-key{height:6.1rem}.piano-key{font-size:.65rem}}
