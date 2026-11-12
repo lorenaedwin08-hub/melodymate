@@ -1,92 +1,202 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MelodyMate accessible music learning</title>
-<link rel="stylesheet" href="/static/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="description"
+    content="An accessible music learning experience with singing practice, piano exploration, and guided note exercises."
+  >
+
+  <title>MelodyMate | Accessible Music Learning</title>
+
+  <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
-<main>
-  <h1 id="page-title" tabindex="-1">MelodyMate music learning</h1>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <p>
-    <button type="button" id="voice" class="btn-large" aria-describedby="voicehelp">Repeat welcome and choose a module</button>
-  </p>
-  <label for="session-input" class="sr-only">Voice session keyboard answers</label>
-  <input type="text" id="session-input" class="sr-only" autocomplete="off" autocapitalize="off" spellcheck="false" tabindex="-1">
-  <p id="voicehelp">The spoken guide starts when this page opens. Choose by speaking or pressing a number. You can press R to repeat a question and Escape to stop. No pointer is needed. Speaking answers need an internet connection and work best in Chrome.</p>
+  <header class="site-header">
+    <p class="brand">MelodyMate</p>
+    <p class="tagline">Music learning, made accessible.</p>
+  </header>
 
-  <h2>Settings</h2>
-  <p>
-    <label for="melody">Melody</label>
-    <select id="melody"></select>
-  </p>
-  <p>
-    <label for="mode">How strictly to compare</label>
-    <select id="mode">
-      <option value="exact">Exact: the same notes as written</option>
-      <option value="ignore_octave">Any octave: the right note names, high or low</option>
-      <option value="relative">Any key: the same tune, higher or lower than written</option>
-    </select>
-  </p>
-  <p>
-    <label for="rate">Speaking speed</label>
-    <select id="rate">
-      <option value="0.55" selected>Patient and clear</option>
-      <option value="0.7">Slow</option>
-      <option value="1">Normal</option>
-    </select>
-    <span class="help-text">MelodyMate prefers a gentle female-sounding voice when your browser provides one. Reports are read extra slowly.</span>
-  </p>
-  <p>
-    <input type="checkbox" id="speak">
-    <label for="speak">Speak messages aloud (turn on only if you do not use a screen reader)</label>
-  </p>
+  <main id="main-content">
+    <section aria-labelledby="page-title">
+      <h1 id="page-title" tabindex="-1">Welcome to MelodyMate</h1>
 
-  <h2 id="singing-title" tabindex="-1">Singing practice</h2>
-  <p>
-    <input type="checkbox" id="phones">
-    <label for="phones">I am wearing headphones</label>
-  </p>
-  <p id="hint">Practice and Start recording work after you tick the headphones box. Without headphones, the microphone hears the reference melody.</p>
-  <p>
-    <button type="button" id="practice" aria-disabled="true" aria-describedby="hint">Practice: listen, then sing</button>
-    <button type="button" id="play">Play reference melody</button>
-    <button type="button" id="start" aria-disabled="true" aria-describedby="hint">Start recording</button>
-    <button type="button" id="stop" aria-disabled="true">Stop and analyze</button>
-  </p>
+      <p>
+        Explore music through singing, piano keys, and guided listening
+        exercises. You can use a keyboard or supported voice commands.
+      </p>
 
-  <h2 id="keyboard-learning-title" tabindex="-1">Keyboard learning — all 88 keys</h2>
-  <p>Explore every note on a standard piano, from A0 to C8. The keys are arranged like a real piano. Choose an octave to focus on a smaller section, or show the complete keyboard.</p>
-  <p>
-    <label for="keyboard-octave">Choose an octave</label>
-    <select id="keyboard-octave">
-      <option value="all">All keys (A0–C8)</option>
-    </select>
-  </p>
-  <p>
-    <button type="button" id="play-keyboard-note">Play selected note</button>
-    <button type="button" id="announce-keyboard-note">Speak selected note</button>
-  </p>
-  <div class="piano-scroll" tabindex="0" aria-label="Scrollable piano keyboard. Use Tab to move through the piano keys.">
-    <div id="piano-keys" class="piano-keys" role="group" aria-label="Piano keys from A0 to C8"></div>
-  </div>
-  <p id="keyboard-status" role="status" aria-live="polite">Loading all 88 piano keys.</p>
+      <button
+        type="button"
+        id="voice"
+        class="btn-large"
+        aria-describedby="voicehelp"
+      >
+        Repeat welcome and choose a module
+      </button>
 
-  <h2 id="guided-note-title" tabindex="-1">Guided note practice</h2>
-  <p>Listen to the target note, then select the matching piano key. The exercise moves through a short C major scale.</p>
-  <p>
-    <button type="button" id="start-note-exercise">Start guided exercise</button>
-    <button type="button" id="repeat-note-target" disabled>Hear target note again</button>
-  </p>
-  <p id="note-exercise-prompt" role="status" aria-live="polite">Start the exercise when you are ready.</p>
+      <label for="session-input" class="sr-only">
+        Voice session keyboard answers
+      </label>
 
-  <h2>Session status</h2>
-  <p id="status" role="status" aria-live="polite">Welcome. The spoken guide will start shortly.</p>
-  <h2>Details</h2>
-  <div id="details" aria-live="polite"><p>Your structured singing report will appear here after practice.</p></div>
-</main>
-<script src="/static/app.js"></script>
-</body>
-</html>
+      <input
+        type="text"
+        id="session-input"
+        class="sr-only"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        tabindex="-1"
+      >
+
+      <p id="voicehelp" class="help-text">
+        The spoken guide starts when this page opens. Choose a module by
+        speaking or pressing a number. Press R to repeat a question and
+        Escape to stop. No pointer is needed. Voice recognition requires
+        an internet connection and works best in supported browsers.
+      </p>
+    </section>
+
+    <section aria-labelledby="settings-title">
+      <h2 id="settings-title">Settings</h2>
+
+      <div class="form-group">
+        <label for="melody">Choose a melody</label>
+        <select id="melody">
+          <!-- Options are populated by app.js. -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="mode">Pitch comparison mode</label>
+        <select id="mode">
+          <option value="exact">
+            Exact: match the written notes and octave
+          </option>
+          <option value="ignore_octave">
+            Any octave: match the note names
+          </option>
+          <option value="relative">
+            Any key: match the tune at a different pitch
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="rate">Speaking speed</label>
+        <select id="rate">
+          <option value="0.55" selected>Slow and clear</option>
+          <option value="0.7">Slow</option>
+          <option value="1">Normal</option>
+        </select>
+
+        <p class="help-text">
+          MelodyMate uses a gentle voice when one is available in your
+          browser. Practice reports are read slowly to make them easier
+          to follow.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" id="speak">
+        <label for="speak">
+          Speak messages aloud
+        </label>
+
+        <p class="help-text">
+          If you use a screen reader, consider leaving this option off
+          to avoid overlapping speech.
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="singing-title">
+      <h2 id="singing-title" tabindex="-1">Singing practice</h2>
+
+      <p>
+        Listen to the reference melody, then sing it into your microphone.
+        Headphones help prevent the reference audio from being picked up
+        during recording.
+      </p>
+
+      <div class="form-group">
+        <input type="checkbox" id="phones">
+        <label for="phones">I am wearing headphones</label>
+      </div>
+
+      <p id="hint" class="help-text">
+        Practice and recording become available after you confirm that
+        you are wearing headphones.
+      </p>
+
+      <div class="button-group" aria-label="Singing practice controls">
+        <button
+          type="button"
+          id="practice"
+          aria-disabled="true"
+          aria-describedby="hint"
+        >
+          Practice: listen, then sing
+        </button>
+
+        <button type="button" id="play">
+          Play reference melody
+        </button>
+
+        <button
+          type="button"
+          id="start"
+          aria-disabled="true"
+          aria-describedby="hint"
+        >
+          Start recording
+        </button>
+
+        <button type="button" id="stop" aria-disabled="true">
+          Stop and analyze
+        </button>
+      </div>
+    </section>
+
+    <section aria-labelledby="keyboard-learning-title">
+      <h2 id="keyboard-learning-title" tabindex="-1">
+        Keyboard learning — all 88 keys
+      </h2>
+
+      <p>
+        Explore a standard piano from A0 to C8. Select an octave to focus
+        on a smaller section, or explore the entire keyboard.
+      </p>
+
+      <div class="form-group">
+        <label for="keyboard-octave">Choose an octave</label>
+        <select id="keyboard-octave">
+          <option value="all">All keys (A0–C8)</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="button" id="play-keyboard-note">
+          Play selected note
+        </button>
+
+        <button type="button" id="announce-keyboard-note">
+          Speak selected note
+        </button>
+      </div>
+
+      <div
+        class="piano-scroll"
+        tabindex="0"
+        role="region"
+        aria-label="Scrollable piano keyboard"
+        aria-describedby="keyboard-instructions"
+      >
+        <p id="keyboard-instructions" class="help-text">
+          Use Tab to move through the piano keys. Follow the instructions
