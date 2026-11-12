@@ -1,3 +1,4 @@
+
 :root{--bg:#fff;--fg:#111;--btn:#0b3d91;--btn-fg:#fff;--off-bg:#e6e6e6;--off-fg:#333;--ring:#c45500;color-scheme:light dark}
 @media (prefers-color-scheme:dark){:root{--bg:#101010;--fg:#f2f2f2;--btn:#a9c9ff;--btn-fg:#000;--off-bg:#2a2a2a;--off-fg:#d8d8d8;--ring:#ffb454}}
 body{margin:0;background:var(--bg);color:var(--fg);font:1.125rem/1.6 system-ui,Arial,sans-serif}
@@ -41,3 +42,391 @@ button[aria-disabled=true]{background:var(--off-bg);color:var(--off-fg);border:2
 @media(prefers-reduced-motion:reduce){.piano-key{transition:none}}
 .piano-key.white-key.target-octave{background:#fff2c2}
 .piano-key.black-key.target-octave{border-color:#e0a000;box-shadow:inset 0 0 0 2px #e0a000}
+
+/* ==========================================================
+   ENHANCEMENTS
+   Original styles above are preserved.
+   ========================================================== */
+
+/* 1. Predictable sizing and smoother rendering */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html{
+  min-width:320px;
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-wrap:break-word;
+}
+
+main{
+  width:100%;
+  padding-inline:clamp(1rem,4vw,1.5rem);
+}
+
+img,
+svg,
+video{
+  max-width:100%;
+}
+
+/* 2. More consistent heading hierarchy */
+h1,
+h2,
+h3{
+  text-wrap:balance;
+}
+
+h1{
+  margin-block:0 1.25rem;
+  letter-spacing:-.035em;
+}
+
+h2{
+  margin-block:2rem .75rem;
+  letter-spacing:-.015em;
+}
+
+h3{
+  line-height:1.35;
+}
+
+/* 3. Clearer help text and form labels */
+label{
+  line-height:1.45;
+}
+
+.help-text{
+  color:var(--off-fg);
+  line-height:1.5;
+}
+
+select{
+  min-height:2.75rem;
+  max-width:100%;
+  cursor:pointer;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+
+select:hover{
+  border-color:var(--btn);
+}
+
+select:focus-visible{
+  border-color:var(--btn);
+}
+
+input,
+select,
+textarea{
+  accent-color:var(--btn);
+}
+
+input[type=checkbox]{
+  cursor:pointer;
+  border-radius:.2rem;
+}
+
+input[type=checkbox]:focus-visible{
+  outline:.2rem solid var(--ring);
+  outline-offset:.2rem;
+}
+
+/* 4. Polished button interaction states */
+button{
+  min-height:2.75rem;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  transition:
+    background-color .15s ease,
+    color .15s ease,
+    border-color .15s ease,
+    box-shadow .15s ease,
+    transform .1s ease;
+}
+
+button:hover:not(:disabled):not([aria-disabled=true]){
+  filter:brightness(1.08);
+  box-shadow:0 .2rem .55rem #0002;
+}
+
+button:active:not(:disabled):not([aria-disabled=true]){
+  transform:translateY(1px);
+  box-shadow:none;
+}
+
+button:disabled,
+button[aria-disabled=true]{
+  opacity:.8;
+  box-shadow:none;
+  filter:none;
+}
+
+button.btn-large{
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+/* 5. More visible status feedback panel */
+#status{
+  overflow-wrap:anywhere;
+  scroll-margin-block:1rem;
+  background:var(--bg);
+  line-height:1.55;
+}
+
+#status:empty{
+  background:var(--off-bg);
+}
+
+#status:focus-visible{
+  outline:.25rem solid var(--ring);
+  outline-offset:.2rem;
+}
+
+/* 6. Improve readability of the details sections */
+#details{
+  min-width:0;
+}
+
+#details section{
+  border-radius:0 .35rem .35rem 0;
+  padding:.65rem 1rem;
+  scroll-margin-block:1rem;
+  overflow-wrap:anywhere;
+  transition:background-color .15s ease;
+}
+
+#details section:hover{
+  background:var(--off-bg);
+}
+
+#details p{
+  line-height:1.65;
+}
+
+/* 7. Piano scrolling and layout improvements */
+.piano-scroll{
+  max-width:100%;
+  scrollbar-width:thin;
+  scrollbar-color:var(--off-fg) var(--off-bg);
+  -webkit-overflow-scrolling:touch;
+  scroll-padding-inline:.5rem;
+  overscroll-behavior:contain;
+}
+
+.piano-scroll:focus-visible{
+  outline:.25rem solid var(--ring);
+  outline-offset:.2rem;
+}
+
+.piano-keys{
+  isolation:isolate;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.piano-key{
+  touch-action:manipulation;
+  overflow:hidden;
+  text-overflow:clip;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.piano-key.white-key{
+  box-shadow:inset 0 -2px 0 #0000000d;
+}
+
+.piano-key.white-key:hover{
+  background:#f0f4ff;
+}
+
+.piano-key.black-key:hover{
+  background:#383838;
+}
+
+.piano-key.white-key:active{
+  background:#e5ebfa;
+}
+
+.piano-key.black-key:active{
+  background:#484848;
+}
+
+/* Keep octave highlighting clear when a key is selected */
+.piano-key.white-key.target-octave[aria-pressed=true]{
+  background:#ffe6a0;
+}
+
+.piano-key.black-key.target-octave[aria-pressed=true]{
+  background:#383020;
+  border-color:#e0a000;
+}
+
+/* 8. Small screens and narrow layouts */
+@media(max-width:600px){
+  main{
+    padding-top:1.1rem;
+    padding-bottom:2rem;
+  }
+
+  h1{
+    font-size:clamp(1.5rem,6vw,1.75rem);
+  }
+
+  h2{
+    margin-top:1.6rem;
+  }
+
+  button{
+    max-width:100%;
+  }
+
+  button.btn-large{
+    width:100%;
+    font-size:1.15rem;
+    padding:.9rem 1rem;
+  }
+
+  #details section{
+    padding:.55rem .75rem;
+  }
+
+  .piano-scroll{
+    padding:.65rem .25rem .85rem;
+  }
+}
+
+/* 9. Wider screens */
+@media(min-width:900px){
+  main{
+    max-width:44rem;
+  }
+
+  .piano-scroll{
+    scrollbar-gutter:stable;
+  }
+}
+
+/* 10. Respect reduced-motion preferences globally */
+@media(prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto;
+  }
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+
+  button:active:not(:disabled):not([aria-disabled=true]){
+    transform:none;
+  }
+}
+
+/* 11. Improve visibility in Windows High Contrast mode */
+@media(forced-colors:active){
+  button,
+  select,
+  #status,
+  .piano-scroll{
+    border:1px solid ButtonText;
+  }
+
+  button[aria-disabled=true]{
+    border:2px dashed GrayText;
+    color:GrayText;
+  }
+
+  .piano-key{
+    forced-color-adjust:auto;
+  }
+
+  .piano-key[aria-pressed=true]{
+    outline:3px solid Highlight;
+  }
+
+  .piano-key.octave-start{
+    border-left:3px solid LinkText;
+  }
+
+  .piano-key.white-key.target-octave,
+  .piano-key.black-key.target-octave{
+    border-color:Highlight;
+  }
+
+  :focus-visible{
+    outline:3px solid Highlight;
+  }
+}
+
+/* 12. Fallback for browsers without dynamic viewport units */
+@supports not (min-height:100dvh){
+  body{
+    min-height:100vh;
+  }
+}
+
+/* 13. Avoid awkward overflow for long content */
+#status,
+#details,
+#details section,
+#details p{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+
+/* 14. Clear focus indication for interactive elements */
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+  outline:.25rem solid var(--ring);
+  outline-offset:.2rem;
+}
+
+/* 15. Optional subtle scrollbars for WebKit browsers */
+.piano-scroll::-webkit-scrollbar{
+  height:.65rem;
+}
+
+.piano-scroll::-webkit-scrollbar-track{
+  background:var(--off-bg);
+  border-radius:1rem;
+}
+
+.piano-scroll::-webkit-scrollbar-thumb{
+  background:var(--off-fg);
+  border:2px solid var(--off-bg);
+  border-radius:1rem;
+}
+
+.piano-scroll::-webkit-scrollbar-thumb:hover{
+  background:var(--fg);
+}
+
+/* 16. Preserve legibility when users enlarge text */
+@media(min-resolution:2dppx){
+  .piano-key{
+    -webkit-font-smoothing:antialiased;
+  }
+}
+
