@@ -345,6 +345,9 @@ let srError = "";
 
 function stopEverything(msg = "Session stopped.") {
   cancelled = true;
+  clearTimeout(pendingDigitTimer);
+  pendingDigitTimer = null;
+  pendingDigits = "";
   talkToken++;
   if ("speechSynthesis" in window) speechSynthesis.cancel();
   if (abortListen) {
