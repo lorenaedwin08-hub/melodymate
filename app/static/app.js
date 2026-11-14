@@ -444,8 +444,6 @@ function handleKey(e) {
 }
 
 document.addEventListener("keydown", handleKey);
-if (sessionInput) sessionInput.addEventListener("keydown", handleKey);
-
 function listenOnce(options) {
   return new Promise((resolve) => {
     let done = false, rc = null, timer;
