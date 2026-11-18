@@ -30,7 +30,7 @@ from core.timing import timing_feedback
 
 MAX_BYTES = 10 * 1024 * 1024
 MAX_SECONDS = 60
-MIN_SECONDS = 0.5
+MIN_SECONDS = 1.0
 MODES = ("exact", "ignore_octave", "relative")
 LABELS = {
     "c_major_up": "C major scale, going up",
@@ -93,6 +93,11 @@ def analyze_singing(
     melody: str = Form(...),
     mode: str = Form("exact"),
 ):
+    if not data:
+    raise HTTPException(
+        status_code=400,
+        detail="The uploaded recording is empty. Please record again."
+    )
     if melody not in MELODIES:
         raise HTTPException(400, "Unknown melody. Pick one from the list.")
     if mode not in MODES:
